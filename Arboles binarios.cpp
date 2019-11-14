@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 
 using namespace std;
 
@@ -7,6 +8,49 @@ struct Nodo{
 	Nodo* izq;
 	Nodo* der;
 };
+
+Nodo* raiz=NULL;
+Nodo* aux= raiz;
+
+void agregar(int x){
+	if(raiz==NULL){
+		raiz=new Nodo();
+		raiz->dato=x;
+		raiz->izq=NULL;
+		raiz->der=NULL;
+	}else{
+		aux=raiz;
+		while(true){
+			if(x<aux->dato){
+				if(aux->izq==NULL){
+					aux->izq=new Nodo();
+					aux=aux->izq;
+					aux->dato=x;
+					aux->izq=NULL;
+					aux->der=NULL;
+					break;
+					}else{
+						aux=aux->izq;
+					}
+				}else if(x>aux->dato){
+					if(aux->der==NULL){
+						aux->der=new Nodo();
+						aux=aux->der;
+						aux->dato=x;
+						aux->izq=NULL;
+						aux->der=NULL;
+						break;
+					}else{
+						aux=aux->der;
+					}
+				}else{
+				cout<<"\Los valores se repiten"<<endl;
+				return;
+			}
+		}
+	}
+}
+
 
 void preOrden(Nodo *raiz){
 	if(raiz==NULL){
@@ -38,12 +82,18 @@ void postOrden(Nodo *raiz){
 	}
 }
 
-Nodo* raiz=NULL;
+void menu(){
+    cout<<"\nMenú de opciones \n"<<endl;
+    cout<<"1 Agregar valor \n"<<"2 Mostrar valores en PreOrden \n"<<"3 Mostrar valores en Orden \n"<<"4 Mostrar valores en PostOrden \n"<<"5 Salir \n"<<endl;
+    cout<<"Elige una opción del menú: \n"<<endl;
+}
 
 int main(){
-	Nodo* aux= raiz;
-	
-	cout<<"\nLa lista de numeros es: 14, 6, 24, 35, 59, 17, 21, 32, 4, 7, 15, 22"<<endl;
+	char *locale;
+    locale=setlocale(LC_ALL,"");
+	int opcion, x;
+	int repetir=true;
+
 	raiz= new Nodo();
 	raiz->dato=14;
 	raiz->izq=new Nodo();
@@ -99,23 +149,39 @@ int main(){
 	aux->izq=NULL;
 	aux->der=NULL;
 	
-	cout<<"\nEl bosquejo del arbol es:"<<endl;
-	cout<<"\n			"<<raiz->dato<<endl;
-	cout<<"	"<<raiz->izq->dato<<"				"<<raiz->der->dato<<endl;
-	cout<<raiz->izq->izq->dato<<"		"<<raiz->izq->der->dato<<"		"<<raiz->der->izq->dato<<"		"<<raiz->der->der->dato<<"		"<<endl;
-	cout<<"		            "<<raiz->der->izq->izq->dato<<"	   "<<raiz->der->izq->der->dato<<"	    "<<raiz->der->der->izq->dato<<"	   "<<raiz->der->der->der->dato<<endl;
-	cout<<"				     "<<raiz->der->izq->der->der->dato<<endl;
-	
-	
-	cout<<"\nEl recorrido en PreOrden es: ";
-	preOrden(raiz);
-	
-	cout<<"\nEl recorrido en Orden es: ";
-	enOrden(raiz);
-
-	cout<<"\nEl recorrido en PostOrden es: ";
-	postOrden(raiz);
-	
-	cout<<"\nListo!!\n";
+	while(repetir){
+		system("CLS");
+		cout<<"\nLa lista de números es: 14, 6, 24, 35, 59, 17, 21, 32, 4, 7, 15, 22"<<endl;
+		menu();
+		cin>>opcion;
+		if(opcion==1){
+            system("CLS");
+            cout<<"\Ingrese un valor: ";
+            cin>>x;
+			agregar(x);
+			cout<<"\n¡Valor agregado con exito!"<<endl;
+			system ("pause");
+		}else if(opcion==2){
+			system("CLS");
+			cout<<"\nEl recorrido en PreOrden es: ";
+			preOrden(raiz);
+			cout<<"\n\n";
+			system ("pause");
+		}else if(opcion==3){
+			system("CLS");
+			cout<<"\nEl recorrido en Orden es: ";
+			enOrden(raiz);
+			cout<<"\n\n";
+			system ("pause");
+		}else if(opcion==4){
+			system("CLS");
+			cout<<"\nEl recorrido en PostOrden es: ";
+			postOrden(raiz);
+			cout<<"\n\n";
+			system ("pause");
+		}else{
+			break;
+		}
+	}
 	return 0;
 }
